@@ -1,0 +1,5 @@
+[core]
+    autostage = true
+    remote = myremote
+['remote "myremote"']
+    url = https://dagshub.com/Mayankvlog/Bank_mlops.dvc
