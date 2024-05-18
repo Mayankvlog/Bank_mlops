@@ -1,3 +1,4 @@
+
 version: 2.1
 
 jobs:
@@ -22,14 +23,18 @@ jobs:
       - store_test_results:
           path: test-results
 
-      - attach_workspace:
-          at: /home/circleci/project
-
-      # Check Streamlit application
+      # Generate plots or run Streamlit application briefly for artifacts
       - run:
-          name: Check Streamlit Application
+          name: Generate Plots or Run Streamlit
           command: |
             streamlit run app.py & sleep 60 && curl -I http://localhost:8501
+
+      # Check if files exist before persisting
+      - run:
+          name: Check for Plot Files
+          command: |
+            ls -la
+            test -f age_balance_scatterplot.html && test -f deposit_countplot.html && test -f job_deposit_barplot.html && test -f marital_deposit_barplot.html
 
       # Save artifacts
       - persist_to_workspace:
@@ -48,7 +53,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: False
-          
       - attach_workspace:
           at: /home/circleci/project
 
@@ -68,9 +72,6 @@ workflows:
             branches:
               only:
                 - master
-          post-steps:
-            - store_artifacts:
-                path: test-results
       - deploy:
           requires:
             - build
