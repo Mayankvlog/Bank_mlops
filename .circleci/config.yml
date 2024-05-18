@@ -22,7 +22,13 @@ jobs:
       - store_test_results:
           path: test-results
 
-      # Save plots as artifacts
+      # Check Streamlit application
+      - run:
+          name: Check Streamlit Application
+          command: |
+            streamlit run app.py & sleep 60 && curl -I http://localhost:8501
+
+      # Save artifacts
       - persist_to_workspace:
           root: .
           paths:
