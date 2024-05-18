@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Generate Plots
           command: |
-            streamlit run app.py  
+            streamlit run app.py && 
 
       # Save plots as artifacts
       - persist_to_workspace:
