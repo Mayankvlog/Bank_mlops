@@ -22,12 +22,6 @@ jobs:
       - store_test_results:
           path: test-results
 
-      # Generate plots (ensure this script generates the required plots)
-      - run:
-          name: Generate Plots
-          command: |
-            streamlit run app.py && 
-
       # Save plots as artifacts
       - persist_to_workspace:
           root: .
